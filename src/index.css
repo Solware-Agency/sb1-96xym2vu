@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  /* Card hover effects */
+  .card-hover {
+    @apply transition-all duration-300 ease-out;
+    transform: translateY(0);
+    transition: transform 0.3s ease-in-out,
+                box-shadow 0.3s ease-in-out,
+                background-color 0.3s ease-in-out;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Entry animations */
+  .fade-in-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Staggered animation delays */
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
+  .stagger-5 { animation-delay: 0.5s; }
+  .stagger-6 { animation-delay: 0.6s; }
+
+  /* Icon animations */
+  .icon-hover {
+    @apply transition-all duration-300 ease-out;
+  }
+  
+  .group:hover .icon-hover {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  /* Button animations */
+  .btn-hover {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .btn-hover:hover {
+    transform: translateX(4px);
+  }
+
+  /* Card gradient backgrounds */
+  .card-gradient {
+    background: linear-gradient(
+      135deg,
+      theme('colors.white') 0%,
+      theme('colors.blue.50') 100%
+    );
+  }
+
+  /* Click feedback animation */
+  .click-feedback {
+    @apply transition-transform duration-100 ease-in-out active:scale-95;
+  }
+
+  /* Accessibility focus styles */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+  }
+}
