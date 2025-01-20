@@ -53,6 +53,7 @@ const faqs = [
 
 const Contact: React.FC = () => {
   const formRef = useRef<HTMLFormElement>(null);
+  const [activeQuestion, setActiveQuestion] = useState<number | null>(null);
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -111,6 +112,10 @@ const Contact: React.FC = () => {
   const openWhatsApp = () => {
     const message = encodeURIComponent('Hola, me gustaría obtener más información sobre sus servicios.');
     window.open(`https://wa.me/584126652245?text=${message}`, '_blank');
+  };
+
+  const toggleQuestion = (index: number) => {
+    setActiveQuestion(activeQuestion === index ? null : index);
   };
 
   return (
@@ -313,17 +318,30 @@ const Contact: React.FC = () => {
               
               <div className="space-y-4">
                 {faqs.map((faq, index) => (
-                  <details key={index} className="group">
-                    <summary className="flex justify-between items-center cursor-pointer 
-                      text-gray-700 hover:text-blue-600 transition-colors">
-                      <span>{faq.question}</span>
-                      <ChevronDown className="h-5 w-5 transform group-open:rotate-180 
-                        transition-transform" />
-                    </summary>
-                    <p className="mt-2 text-gray-600">
-                      {faq.answer}
-                    </p>
-                  </details>
+                  <div key={index} className="border-b border-gray-100 last:border-0">
+                    <button
+                      onClick={() => toggleQuestion(index)}
+                      className="w-full py-4 flex justify-between items-center text-left focus:outline-none group"
+                    >
+                      <span className={`text-lg transition-colors duration-200 ${
+                        activeQuestion === index ? 'text-blue-600 font-medium' : 'text-gray-700'
+                      } group-hover:text-blue-600`}>
+                        {faq.question}
+                      </span>
+                      <ChevronDown className={`h-5 w-5 transition-transform duration-300 ${
+                        activeQuestion === index ? 'rotate-180 text-blue-600' : 'text-gray-400'
+                      }`} />
+                    </button>
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                        activeQuestion === index ? 'max-h-40 opacity-100 mb-4' : 'max-h-0 opacity-0'
+                      }`}
+                    >
+                      <p className="text-gray-600 px-1">
+                        {faq.answer}
+                      </p>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
