@@ -1,182 +1,181 @@
-import React from 'react';
-import { Settings, Code2, Users, Server, Megaphone, ChevronRight, BarChart3, Cuboid as Cube } from 'lucide-react';
-
-interface ServiceCardProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  features: string[];
-  stats: {
-    value: string;
-    label: string;
-  };
-  index: number;
-}
-
-const ServiceCard = ({ icon, title, description, features, stats, index }: ServiceCardProps) => (
-  <div 
-    className={`bg-white rounded-2xl p-6 sm:p-8 shadow-lg card-hover fade-in-up stagger-${index + 1} 
-      group hover:shadow-2xl card-gradient relative overflow-hidden
-      border border-gray-100 transition-all duration-300 ease-out
-      h-full flex flex-col justify-between`}
-  >
-    <div>
-      <div className="h-12 sm:h-14 w-12 sm:w-14 rounded-xl bg-blue-50 flex items-center justify-center mb-4 sm:mb-6 
-        group-hover:bg-blue-600 transition-all duration-300 ease-out">
-        <div className="text-blue-600 group-hover:text-white transition-colors icon-hover scale-75 sm:scale-100">
-          {icon}
-        </div>
-      </div>
-      
-      <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 title-hover">
-        {title}
-      </h3>
-      <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 transition-colors">{description}</p>
-      
-      <ul className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
-        {features.map((feature, index) => (
-          <li key={index} className="flex items-start group/item text-sm sm:text-base">
-            <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 mt-0.5 flex-shrink-0 
-              transition-transform group-hover/item:translate-x-1" />
-            <span className="text-gray-600 ml-2 transition-colors">{feature}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-
-    <div className="flex items-center justify-between pt-4 sm:pt-6 border-t border-gray-100">
-      <div className="flex items-center">
-        <BarChart3 className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 mr-2 transition-transform 
-          group-hover:scale-110" />
-        <div>
-          <p className="font-bold text-gray-900 text-sm sm:text-base">{stats.value}</p>
-          <p className="text-xs sm:text-sm text-gray-500">{stats.label}</p>
-        </div>
-      </div>
-      
-      <button className="px-3 sm:px-4 py-1.5 sm:py-2 text-blue-600 text-sm sm:text-base font-medium 
-        hover:bg-blue-50 rounded-lg transition-all duration-300 flex items-center 
-        hover:px-4 sm:hover:px-5 focus-ring btn-hover">
-        Saber más
-        <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4 ml-1 transition-transform group-hover:translate-x-1" />
-      </button>
-    </div>
-  </div>
-);
+import React, { useState } from 'react';
+import { Settings, Code2, Users, Server, Megaphone, Cuboid as Cube } from 'lucide-react';
+import ServiceFlipCard from './ServiceFlipCard';
 
 const services = [
   {
-    icon: <Cube className="h-6 w-6" />,
+    icon: <Cube className="h-6 w-6 text-white" />,
     title: "Digitalización 3D y Capturas 360°",
     description: "Creamos experiencias inmersivas y visualizaciones interactivas de alta calidad.",
-    features: [
-      "Modelado 3D profesional",
-      "Tours virtuales 360°",
-      "Visualización arquitectónica",
-      "Renderizado en 4K"
-    ],
-    stats: {
-      value: "4K",
-      label: "Calidad de captura"
-    }
+    image: "https://images.unsplash.com/photo-1626544827763-d516dce335e2?auto=format&fit=crop&q=80&w=800",
+    details: [
+      {
+        title: "Modelado 3D Profesional",
+        description: "Creación de modelos tridimensionales detallados para productos y espacios, utilizando tecnología avanzada para una representación precisa."
+      },
+      {
+        title: "Tours Virtuales 360°",
+        description: "Experiencias interactivas que permiten explorar espacios desde cualquier lugar, ideales para inmobiliarias y negocios."
+      },
+      {
+        title: "Visualización Arquitectónica",
+        description: "Transformación de planos en visualizaciones 3D impactantes, facilitando la comprensión del diseño y la funcionalidad."
+      },
+      {
+        title: "Renderizado en 4K",
+        description: "Imágenes de alta resolución que destacan cada detalle, perfectas para presentaciones y marketing."
+      }
+    ]
   },
   {
-    icon: <Settings className="h-6 w-6" />,
+    icon: <Settings className="h-6 w-6 text-white" />,
     title: "Automatización de Procesos",
     description: "Optimiza tus operaciones con soluciones automatizadas inteligentes.",
-    features: [
-      "Flujos de trabajo automatizados",
-      "Integración de sistemas",
-      "Reducción de errores manuales",
-      "Mayor productividad"
-    ],
-    stats: {
-      value: "+60%",
-      label: "Eficiencia mejorada"
-    }
+    image: "https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?auto=format&fit=crop&q=80&w=800",
+    details: [
+      {
+        title: "Flujos de Trabajo Automatizados",
+        description: "Diseñamos y configuramos flujos de trabajo que automatizan tareas repetitivas, mejorando la eficiencia operativa."
+      },
+      {
+        title: "Integración de Sistemas",
+        description: "Conectamos diferentes plataformas y aplicaciones para crear un ecosistema digital cohesivo y eficiente."
+      },
+      {
+        title: "Reducción de Errores",
+        description: "Minimizamos errores humanos mediante la automatización de procesos críticos y validaciones automáticas."
+      },
+      {
+        title: "Análisis y Optimización",
+        description: "Monitoreamos y optimizamos continuamente los procesos automatizados para máximo rendimiento."
+      }
+    ]
   },
   {
-    icon: <Code2 className="h-6 w-6" />,
+    icon: <Code2 className="h-6 w-6 text-white" />,
     title: "Desarrollo Web y Móvil",
     description: "Creamos aplicaciones modernas y responsivas para tu negocio.",
-    features: [
-      "Diseño UX/UI intuitivo",
-      "Desarrollo full-stack",
-      "Aplicaciones progresivas",
-      "Optimización SEO"
-    ],
-    stats: {
-      value: "100%",
-      label: "Satisfacción cliente"
-    }
+    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=800",
+    details: [
+      {
+        title: "Diseño UX/UI Intuitivo",
+        description: "Creamos interfaces atractivas y fáciles de usar que mejoran la experiencia del usuario."
+      },
+      {
+        title: "Desarrollo Full-Stack",
+        description: "Implementamos soluciones completas que integran front-end y back-end de manera eficiente."
+      },
+      {
+        title: "Aplicaciones Progresivas",
+        description: "Desarrollamos PWAs que funcionan en cualquier dispositivo y ofrecen una experiencia nativa."
+      },
+      {
+        title: "Optimización SEO",
+        description: "Aseguramos que tus aplicaciones sean visibles y rankeen bien en los motores de búsqueda."
+      }
+    ]
   },
   {
-    icon: <Users className="h-6 w-6" />,
+    icon: <Users className="h-6 w-6 text-white" />,
     title: "CRM y Gestión",
     description: "Gestiona tus relaciones con clientes de manera efectiva.",
-    features: [
-      "Seguimiento de clientes",
-      "Automatización de marketing",
-      "Análisis de datos",
-      "Reportes personalizados"
-    ],
-    stats: {
-      value: "+45%",
-      label: "Retención clientes"
-    }
+    image: "https://images.unsplash.com/photo-1552581234-26160f608093?auto=format&fit=crop&q=80&w=800",
+    details: [
+      {
+        title: "Seguimiento de Clientes",
+        description: "Sistema integral para seguimiento y gestión de las interacciones con clientes en todo el ciclo de vida."
+      },
+      {
+        title: "Automatización de Marketing",
+        description: "Herramientas para automatizar campañas de marketing y nutrir leads de manera efectiva."
+      },
+      {
+        title: "Análisis de Datos",
+        description: "Insights detallados sobre el comportamiento de clientes para tomar decisiones informadas."
+      },
+      {
+        title: "Reportes Personalizados",
+        description: "Generación de informes adaptados a tus necesidades específicas de negocio."
+      }
+    ]
   },
   {
-    icon: <Server className="h-6 w-6" />,
+    icon: <Server className="h-6 w-6 text-white" />,
     title: "Infraestructura Cloud",
     description: "Moderniza tu infraestructura tecnológica en la nube.",
-    features: [
-      "Migración a la nube",
-      "Escalabilidad automática",
-      "Seguridad avanzada",
-      "Respaldos automáticos"
-    ],
-    stats: {
-      value: "99.9%",
-      label: "Tiempo activo"
-    }
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800",
+    details: [
+      {
+        title: "Migración a la Nube",
+        description: "Transición suave y segura de sistemas locales a infraestructura cloud moderna."
+      },
+      {
+        title: "Escalabilidad Automática",
+        description: "Configuración de recursos que se adaptan automáticamente a la demanda."
+      },
+      {
+        title: "Seguridad Avanzada",
+        description: "Implementación de múltiples capas de seguridad para proteger datos y aplicaciones."
+      },
+      {
+        title: "Respaldos Automáticos",
+        description: "Sistema de copias de seguridad automatizadas para garantizar la continuidad del negocio."
+      }
+    ]
   },
   {
-    icon: <Megaphone className="h-6 w-6" />,
+    icon: <Megaphone className="h-6 w-6 text-white" />,
     title: "Marketing Digital",
     description: "Impulsa tu presencia online y alcanza más clientes.",
-    features: [
-      "Estrategias SEO/SEM",
-      "Marketing de contenidos",
-      "Redes sociales",
-      "Análisis de resultados"
-    ],
-    stats: {
-      value: "+85%",
-      label: "Alcance digital"
-    }
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800",
+    details: [
+      {
+        title: "Estrategias SEO/SEM",
+        description: "Optimización para motores de búsqueda y gestión de campañas publicitarias efectivas."
+      },
+      {
+        title: "Marketing de Contenidos",
+        description: "Creación y distribución de contenido relevante que atrae y retiene a tu audiencia."
+      },
+      {
+        title: "Gestión de Redes Sociales",
+        description: "Administración profesional de tus perfiles sociales para maximizar el engagement."
+      },
+      {
+        title: "Análisis y Reportes",
+        description: "Seguimiento detallado de métricas y KPIs para optimizar resultados."
+      }
+    ]
   }
 ];
 
 export default function Services() {
+  const [flippedCardIndex, setFlippedCardIndex] = useState<number | null>(null);
+
+  const handleFlip = (index: number) => {
+    setFlippedCardIndex(flippedCardIndex === index ? null : index);
+  };
+
   return (
-    <section className="py-12 sm:py-16 lg:py-24 bg-gray-50" id="servicios">
+    <section className="py-24 bg-gray-50" id="servicios">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12 lg:mb-16 fade-in-up">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4 relative">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4 relative">
             Nuestros Servicios
-            <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 sm:w-20 h-1 bg-blue-600 rounded-full"></span>
+            <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-blue-600 rounded-full"></span>
           </h2>
-          <p className="text-lg sm:text-xl text-gray-600 px-4">
+          <p className="text-xl text-gray-600">
             Soluciones tecnológicas adaptadas a tus necesidades empresariales
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {services.map((service, index) => (
-            <ServiceCard
+            <ServiceFlipCard
               key={index}
               {...service}
-              index={index}
+              isFlipped={flippedCardIndex === index}
+              onFlip={() => handleFlip(index)}
             />
           ))}
         </div>
