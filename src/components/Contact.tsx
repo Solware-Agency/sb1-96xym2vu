@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import emailjs from '@emailjs/browser';
 import { 
   MapPin, 
   Mail, 
@@ -9,102 +10,77 @@ import {
   Twitter, 
   Instagram,
   ChevronDown,
-  CheckCircle2
+  Building2,
+  Globe,
+  MessageCircle
 } from 'lucide-react';
 
 interface FormData {
-  fullName: string;
+  name: string;
   email: string;
-  subject: string;
+  phone: string;
+  company: string;
+  sector: string;
   message: string;
-  newsletter: boolean;
+  areas: string[];
 }
 
-const INITIAL_FORM_STATE: FormData = {
-  fullName: '',
-  email: '',
-  subject: 'consulta',
-  message: '',
-  newsletter: false,
-};
-
-const SUBJECTS = [
-  { value: 'consulta', label: 'Consulta General' },
-  { value: 'presupuesto', label: 'Solicitud de Presupuesto' },
-  { value: 'soporte', label: 'Soporte Técnico' },
-  { value: 'alianza', label: 'Propuesta de Alianza' },
+const areasDeInteres = [
+  { id: 'automatizacion', label: 'Automatización de Procesos' },
+  { id: 'desarrollo', label: 'Desarrollo Web/Móvil' },
+  { id: 'crm', label: 'CRM y Gestión de Clientes' },
+  { id: 'marketing', label: 'Marketing Digital' },
+  { id: 'infraestructura', label: 'Infraestructura Cloud' },
+  { id: 'consultoria', label: 'Consultoría Digital' }
 ];
 
-export default function Contact() {
-  const [formData, setFormData] = useState<FormData>(INITIAL_FORM_STATE);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [errors, setErrors] = useState<Partial<FormData>>({});
+const Contact: React.FC = () => {
+  const form = useRef<HTMLFormElement>(null);
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    email: '',
+    phone: '',
+    company: '',
+    sector: '',
+    message: '',
+    areas: []
+  });
 
-  const validateForm = () => {
-    const newErrors: Partial<FormData> = {};
-    
-    if (!formData.fullName.trim()) {
-      newErrors.fullName = 'El nombre es requerido';
-    }
-    
-    if (!formData.email.trim()) {
-      newErrors.email = 'El email es requerido';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Email inválido';
-    }
-    
-    if (formData.message.length < 50) {
-      newErrors.message = 'El mensaje debe tener al menos 50 caracteres';
-    }
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!validateForm()) return;
-    
-    setIsSubmitting(true);
-    
-    // Simulación de envío
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setSubmitSuccess(true);
-    setFormData(INITIAL_FORM_STATE);
-    
-    setTimeout(() => setSubmitSuccess(false), 5000);
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    const { name, value, type } = e.target;
-    const checked = type === 'checkbox' ? (e.target as HTMLInputElement).checked : undefined;
-    
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: checked !== undefined ? checked : value,
+      [name]: value
     }));
-    
-    // Limpiar error al escribir
-    if (errors[name as keyof FormData]) {
-      setErrors(prev => ({ ...prev, [name]: undefined }));
-    }
+  };
+
+  const handleAreaChange = (areaId: string) => {
+    setFormData(prev => {
+      const areas = prev.areas.includes(areaId)
+        ? prev.areas.filter(id => id !== areaId)
+        : [...prev.areas, areaId];
+      return { ...prev, areas };
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Aquí iría la lógica de envío del formulario
+    console.log('Form submitted:', formData);
+  };
+
+  const openWhatsApp = () => {
+    const message = encodeURIComponent('Hola, me gustaría obtener más información sobre sus servicios.');
+    window.open(`https://wa.me/584126652245?text=${message}`, '_blank');
   };
 
   return (
     <section className="py-24 bg-gray-50" id="contacto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 fade-in-up">
           <h2 className="text-4xl font-bold text-gray-900 mb-4 relative">
             ¡Conectemos! Tu éxito es nuestra prioridad
-            <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 
-              bg-blue-600 rounded-full"></span>
+            <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-blue-600 rounded-full"></span>
           </h2>
           <p className="text-xl text-gray-600">
             Estamos listos para responder tus consultas y ayudarte a potenciar tu negocio 
@@ -113,32 +89,26 @@ export default function Contact() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Formulario */}
           <div className="bg-white rounded-2xl p-8 shadow-lg fade-in-up stagger-1">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form ref={form} onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
-                  Nombre completo *
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                  Nombre completo
                 </label>
                 <input
                   type="text"
-                  id="fullName"
-                  name="fullName"
-                  value={formData.fullName}
+                  id="name"
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
-                  className={`mt-1 block w-full rounded-lg border-gray-300 shadow-sm 
-                    focus:border-blue-500 focus:ring-blue-500 ${
-                      errors.fullName ? 'border-red-500' : ''
-                    }`}
+                  required
+                  className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:bg-white transition-colors"
                 />
-                {errors.fullName && (
-                  <p className="mt-1 text-sm text-red-600">{errors.fullName}</p>
-                )}
               </div>
 
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  Email corporativo *
+                  Correo electrónico
                 </label>
                 <input
                   type="email"
@@ -146,116 +116,115 @@ export default function Contact() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`mt-1 block w-full rounded-lg border-gray-300 shadow-sm 
-                    focus:border-blue-500 focus:ring-blue-500 ${
-                      errors.email ? 'border-red-500' : ''
-                    }`}
+                  required
+                  className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:bg-white transition-colors"
                 />
-                {errors.email && (
-                  <p className="mt-1 text-sm text-red-600">{errors.email}</p>
-                )}
               </div>
 
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
-                  Asunto
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                  Teléfono
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:bg-white transition-colors"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="company" className="block text-sm font-medium text-gray-700">
+                  Empresa
+                </label>
+                <input
+                  type="text"
+                  id="company"
+                  name="company"
+                  value={formData.company}
+                  onChange={handleChange}
+                  className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:bg-white transition-colors"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="sector" className="block text-sm font-medium text-gray-700">
+                  Sector
                 </label>
                 <select
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
+                  id="sector"
+                  name="sector"
+                  value={formData.sector}
                   onChange={handleChange}
-                  className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm 
-                    focus:border-blue-500 focus:ring-blue-500"
+                  required
+                  className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:bg-white transition-colors appearance-none pr-10"
                 >
-                  {SUBJECTS.map(subject => (
-                    <option key={subject.value} value={subject.value}>
-                      {subject.label}
-                    </option>
-                  ))}
+                  <option value="">Selecciona un sector</option>
+                  <option value="tecnologia">Tecnología</option>
+                  <option value="salud">Salud</option>
+                  <option value="educacion">Educación</option>
+                  <option value="comercio">Comercio</option>
+                  <option value="servicios">Servicios</option>
+                  <option value="otro">Otro</option>
                 </select>
               </div>
 
               <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Áreas de interés
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {areasDeInteres.map(area => (
+                    <label
+                      key={area.id}
+                      className={`flex items-center p-3 rounded-lg border cursor-pointer transition-all duration-200 ${
+                        formData.areas.includes(area.id)
+                          ? 'border-blue-500 bg-blue-50 text-blue-700'
+                          : 'border-gray-200 hover:border-blue-200 hover:bg-blue-50/50'
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        className="sr-only"
+                        checked={formData.areas.includes(area.id)}
+                        onChange={() => handleAreaChange(area.id)}
+                      />
+                      <span className="text-sm">{area.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div>
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-                  Mensaje *
+                  Mensaje
                 </label>
                 <textarea
                   id="message"
                   name="message"
-                  rows={4}
                   value={formData.message}
                   onChange={handleChange}
-                  className={`mt-1 block w-full rounded-lg border-gray-300 shadow-sm 
-                    focus:border-blue-500 focus:ring-blue-500 ${
-                      errors.message ? 'border-red-500' : ''
-                    }`}
-                />
-                {errors.message && (
-                  <p className="mt-1 text-sm text-red-600">{errors.message}</p>
-                )}
-                <p className="mt-1 text-sm text-gray-500">
-                  Mínimo 50 caracteres. Actual: {formData.message.length}
-                </p>
+                  required
+                  rows={4}
+                  className="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:bg-white transition-colors"
+                ></textarea>
               </div>
 
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  id="newsletter"
-                  name="newsletter"
-                  checked={formData.newsletter}
-                  onChange={handleChange}
-                  className="h-4 w-4 rounded border-gray-300 text-blue-600 
-                    focus:ring-blue-500"
-                />
-                <label htmlFor="newsletter" className="ml-2 text-sm text-gray-600">
-                  Suscribirme al newsletter para recibir novedades y ofertas
-                </label>
-              </div>
-
-              <div>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className={`w-full flex items-center justify-center px-8 py-3 border 
-                    border-transparent text-base font-medium rounded-full text-white 
-                    bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 
-                    focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 
-                    ${isSubmitting ? 'opacity-75 cursor-not-allowed' : ''} 
-                    click-feedback`}
-                >
-                  {isSubmitting ? (
-                    <span className="flex items-center">
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" 
-                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" 
-                          stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" 
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                      </svg>
-                      Enviando...
-                    </span>
-                  ) : (
-                    <>
-                      Enviar Consulta
-                      <Send className="ml-2 h-5 w-5" />
-                    </>
-                  )}
-                </button>
-
-                {submitSuccess && (
-                  <div className="mt-4 p-4 bg-green-50 rounded-lg flex items-center 
-                    text-green-700">
-                    <CheckCircle2 className="h-5 w-5 mr-2" />
-                    Mensaje enviado con éxito. Nos contactaremos pronto.
-                  </div>
-                )}
-              </div>
+              <button
+                type="submit"
+                className="w-full flex items-center justify-center px-6 py-3 border border-transparent 
+                  text-base font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 
+                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 
+                  transition-colors duration-300"
+              >
+                <Send className="h-5 w-5 mr-2" />
+                Enviar mensaje
+              </button>
             </form>
           </div>
 
-          {/* Información de contacto */}
           <div className="space-y-8">
             <div className="bg-white rounded-2xl p-8 shadow-lg fade-in-up stagger-2">
               <h3 className="text-xl font-bold text-gray-900 mb-6">
@@ -280,9 +249,9 @@ export default function Contact() {
                 
                 <div className="flex items-center">
                   <Phone className="h-5 w-5 text-blue-600" />
-                  <a href="tel:+584241234567" 
+                  <a href="tel:+584126652245" 
                     className="ml-3 text-gray-600 hover:text-blue-600 transition-colors">
-                    +58 424-1234567
+                    +58 412-6652245
                   </a>
                 </div>
                 
@@ -292,6 +261,16 @@ export default function Contact() {
                     Lunes a Viernes, 9:00 - 18:00 hrs
                   </span>
                 </div>
+
+                <button
+                  onClick={openWhatsApp}
+                  className="w-full mt-4 flex items-center justify-center px-6 py-3 bg-green-500 
+                    text-white rounded-full hover:bg-green-600 transition-all duration-300 
+                    shadow-lg hover:shadow-xl"
+                >
+                  <MessageCircle className="h-5 w-5 mr-2" />
+                  Chatear por WhatsApp
+                </button>
               </div>
 
               <div className="mt-8 pt-8 border-t border-gray-100">
@@ -359,7 +338,6 @@ export default function Contact() {
           </div>
         </div>
 
-        {/* Mapa */}
         <div className="mt-12 rounded-2xl overflow-hidden shadow-lg fade-in-up stagger-4">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.0439282485397!2d-66.8563193!3d10.4914582!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8c2a58fa8f7c5f27%3A0x7a46c3834a4bb935!2sAv.%20Francisco%20de%20Miranda%2C%20Caracas%201060%2C%20Miranda!5e0!3m2!1ses!2sve!4v1647289845784!5m2!1ses!2sve"
@@ -375,4 +353,6 @@ export default function Contact() {
       </div>
     </section>
   );
-}
+};
+
+export default Contact;
