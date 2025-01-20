@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import emailjs from '@emailjs/browser';
 import { 
   Mail, 
   Phone, 
@@ -53,7 +52,7 @@ const faqs = [
 
 const Contact: React.FC = () => {
   const formRef = useRef<HTMLFormElement>(null);
-  const [activeQuestion, setActiveQuestion] = useState<number | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -84,16 +83,32 @@ const Contact: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
-    if (!formRef.current) return;
+    if (!formRef.current || isSubmitting) return;
+
+    setIsSubmitting(true);
 
     try {
-      await emailjs.sendForm(
-        'YOUR_SERVICE_ID',
-        'YOUR_TEMPLATE_ID',
-        formRef.current,
-        'YOUR_PUBLIC_KEY'
-      );
-      alert('Mensaje enviado con éxito!');
+      const scriptUrl = 'https://script.google.com/macros/s/AKfycbxGL1ELw7YpU-Hps7UaNi4x4GWqBP0JJs9u7rnHQ8IuOJtgAS_6PkheVS5YobJVOW79/exec';
+      
+      const formDataToSend = new FormData();
+      formDataToSend.append('nombre', formData.name);
+      formDataToSend.append('correo', formData.email);
+      formDataToSend.append('telefono', formData.phone);
+      formDataToSend.append('empresa', formData.company);
+      formDataToSend.append('sector', formData.sector);
+      formDataToSend.append('areasInteres', formData.areas.map(id => 
+        areasDeInteres.find(area => area.id === id)?.label || id
+      ).join(', '));
+      formDataToSend.append('mensaje', formData.message);
+
+      await fetch(scriptUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: formDataToSend
+      });
+
+      alert('¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.');
+      
       setFormData({
         name: '',
         email: '',
@@ -103,19 +118,18 @@ const Contact: React.FC = () => {
         message: '',
         areas: []
       });
+
     } catch (error) {
       console.error('Error al enviar el mensaje:', error);
       alert('Error al enviar el mensaje. Por favor, intente nuevamente.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const openWhatsApp = () => {
     const message = encodeURIComponent('Hola, me gustaría obtener más información sobre sus servicios.');
     window.open(`https://wa.me/584126652245?text=${message}`, '_blank');
-  };
-
-  const toggleQuestion = (index: number) => {
-    setActiveQuestion(activeQuestion === index ? null : index);
   };
 
   return (
@@ -258,13 +272,14 @@ const Contact: React.FC = () => {
 
               <button
                 type="submit"
+                disabled={isSubmitting}
                 className="w-full flex items-center justify-center px-6 py-3 border border-transparent 
                   text-base font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 
                   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 
-                  transition-colors duration-300"
+                  transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send className="h-5 w-5 mr-2" />
-                Enviar mensaje
+                {isSubmitting ? 'Enviando...' : 'Enviar mensaje'}
               </button>
             </form>
           </div>
@@ -318,30 +333,17 @@ const Contact: React.FC = () => {
               
               <div className="space-y-4">
                 {faqs.map((faq, index) => (
-                  <div key={index} className="border-b border-gray-100 last:border-0">
-                    <button
-                      onClick={() => toggleQuestion(index)}
-                      className="w-full py-4 flex justify-between items-center text-left focus:outline-none group"
-                    >
-                      <span className={`text-lg transition-colors duration-200 ${
-                        activeQuestion === index ? 'text-blue-600 font-medium' : 'text-gray-700'
-                      } group-hover:text-blue-600`}>
-                        {faq.question}
-                      </span>
-                      <ChevronDown className={`h-5 w-5 transition-transform duration-300 ${
-                        activeQuestion === index ? 'rotate-180 text-blue-600' : 'text-gray-400'
-                      }`} />
-                    </button>
-                    <div
-                      className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                        activeQuestion === index ? 'max-h-40 opacity-100 mb-4' : 'max-h-0 opacity-0'
-                      }`}
-                    >
-                      <p className="text-gray-600 px-1">
-                        {faq.answer}
-                      </p>
-                    </div>
-                  </div>
+                  <details key={index} className="group">
+                    <summary className="flex justify-between items-center cursor-pointer 
+                      text-gray-700 hover:text-blue-600 transition-colors">
+                      <span>{faq.question}</span>
+                      <ChevronDown className="h-5 w-5 transform group-open:rotate-180 
+                        transition-transform" />
+                    </summary>
+                    <p className="mt-2 text-gray-600">
+                      {faq.answer}
+                    </p>
+                  </details>
                 ))}
               </div>
             </div>
