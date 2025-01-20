@@ -1,7 +1,7 @@
 import React from 'react';
 import { ChevronRight, ArrowLeft } from 'lucide-react';
 
-interface ServiceFlipCardProps {
+interface ServiceCardProps {
   title: string;
   description: string;
   icon: React.ReactNode;
@@ -14,7 +14,7 @@ interface ServiceFlipCardProps {
   onFlip: () => void;
 }
 
-const ServiceFlipCard: React.FC<ServiceFlipCardProps> = ({
+const ServiceCard: React.FC<ServiceCardProps> = ({
   title,
   description,
   icon,
@@ -33,7 +33,7 @@ const ServiceFlipCard: React.FC<ServiceFlipCardProps> = ({
         {/* Frente de la card */}
         <div className="absolute w-full h-full backface-hidden">
           <div className="h-full bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-shadow duration-300">
-            <div className="relative h-40 overflow-hidden">
+            <div className="relative h-48 overflow-hidden">
               <img
                 src={image}
                 alt={title}
@@ -47,22 +47,16 @@ const ServiceFlipCard: React.FC<ServiceFlipCardProps> = ({
               </div>
             </div>
 
-            <div className="p-5">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">
-                {title}
-              </h3>
-              <p className="text-sm text-gray-600 mb-4">
-                {description}
-              </p>
+            <div className="p-6">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">{title}</h3>
+              <p className="text-gray-600 mb-4">{description}</p>
               
               <button
                 onClick={onFlip}
-                className="inline-flex items-center justify-center px-4 py-2 bg-blue-600 
-                  text-white rounded-full hover:bg-blue-700 transition-colors duration-300
-                  text-sm group/btn"
+                className="inline-flex items-center text-blue-600 font-medium hover:text-blue-700 transition-colors group/btn"
               >
                 Saber más
-                <ChevronRight className="ml-1 h-4 w-4 transform group-hover/btn:translate-x-1 transition-transform" />
+                <ChevronRight className="ml-2 h-4 w-4 transform group-hover/btn:translate-x-1 transition-transform" />
               </button>
             </div>
           </div>
@@ -70,18 +64,18 @@ const ServiceFlipCard: React.FC<ServiceFlipCardProps> = ({
 
         {/* Reverso de la card */}
         <div className="absolute w-full h-full backface-hidden rotate-y-180">
-          <div className="h-full bg-white rounded-2xl shadow-lg p-5 overflow-y-auto">
-            <h3 className="text-lg font-bold text-gray-900 mb-3">
+          <div className="h-full bg-white rounded-2xl shadow-lg p-6 overflow-y-auto">
+            <h3 className="text-lg font-bold text-gray-900 mb-4">
               Detalles del Servicio
             </h3>
 
             <div className="space-y-4">
               {details.map((detail, index) => (
                 <div key={index}>
-                  <h4 className="text-base font-semibold text-blue-600 mb-1">
+                  <h4 className="text-base font-semibold text-blue-600 mb-2">
                     {detail.title}
                   </h4>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-gray-600">
                     {detail.description}
                   </p>
                 </div>
@@ -90,11 +84,9 @@ const ServiceFlipCard: React.FC<ServiceFlipCardProps> = ({
 
             <button
               onClick={onFlip}
-              className="mt-4 inline-flex items-center justify-center px-4 py-2 
-                border-2 border-blue-600 text-blue-600 rounded-full 
-                hover:bg-blue-50 transition-colors duration-300 text-sm group/btn"
+              className="mt-6 inline-flex items-center text-blue-600 font-medium hover:text-blue-700 transition-colors group/btn"
             >
-              <ArrowLeft className="mr-1 h-4 w-4 transform group-hover/btn:-translate-x-1 transition-transform" />
+              <ArrowLeft className="mr-2 h-4 w-4 transform group-hover/btn:-translate-x-1 transition-transform" />
               Volver
             </button>
           </div>
@@ -104,4 +96,4 @@ const ServiceFlipCard: React.FC<ServiceFlipCardProps> = ({
   );
 };
 
-export default ServiceFlipCard;
+export default ServiceCard;

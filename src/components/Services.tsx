@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Settings, Code2, Users, Server, Megaphone, Cuboid as Cube } from 'lucide-react';
-import ServiceFlipCard from './ServiceFlipCard';
+import ServiceCard from './ServiceCard';
 
 const services = [
   {
@@ -11,19 +11,19 @@ const services = [
     details: [
       {
         title: "Modelado 3D Profesional",
-        description: "Creación de modelos tridimensionales detallados para productos y espacios, utilizando tecnología avanzada para una representación precisa."
+        description: "Creación de modelos tridimensionales detallados para productos y espacios."
       },
       {
         title: "Tours Virtuales 360°",
-        description: "Experiencias interactivas que permiten explorar espacios desde cualquier lugar, ideales para inmobiliarias y negocios."
+        description: "Experiencias interactivas que permiten explorar espacios desde cualquier lugar."
       },
       {
         title: "Visualización Arquitectónica",
-        description: "Transformación de planos en visualizaciones 3D impactantes, facilitando la comprensión del diseño y la funcionalidad."
+        description: "Transformación de planos en visualizaciones 3D impactantes."
       },
       {
         title: "Renderizado en 4K",
-        description: "Imágenes de alta resolución que destacan cada detalle, perfectas para presentaciones y marketing."
+        description: "Imágenes de alta resolución que destacan cada detalle."
       }
     ]
   },
@@ -35,19 +35,19 @@ const services = [
     details: [
       {
         title: "Flujos de Trabajo Automatizados",
-        description: "Diseñamos y configuramos flujos de trabajo que automatizan tareas repetitivas, mejorando la eficiencia operativa."
+        description: "Diseñamos y configuramos flujos de trabajo que automatizan tareas repetitivas."
       },
       {
         title: "Integración de Sistemas",
-        description: "Conectamos diferentes plataformas y aplicaciones para crear un ecosistema digital cohesivo y eficiente."
+        description: "Conectamos diferentes plataformas y aplicaciones para crear un ecosistema digital cohesivo."
       },
       {
         title: "Reducción de Errores",
-        description: "Minimizamos errores humanos mediante la automatización de procesos críticos y validaciones automáticas."
+        description: "Minimizamos errores humanos mediante la automatización de procesos críticos."
       },
       {
         title: "Análisis y Optimización",
-        description: "Monitoreamos y optimizamos continuamente los procesos automatizados para máximo rendimiento."
+        description: "Monitoreamos y optimizamos continuamente los procesos automatizados."
       }
     ]
   },
@@ -83,7 +83,7 @@ const services = [
     details: [
       {
         title: "Seguimiento de Clientes",
-        description: "Sistema integral para seguimiento y gestión de las interacciones con clientes en todo el ciclo de vida."
+        description: "Sistema integral para seguimiento y gestión de las interacciones con clientes."
       },
       {
         title: "Automatización de Marketing",
@@ -119,7 +119,7 @@ const services = [
       },
       {
         title: "Respaldos Automáticos",
-        description: "Sistema de copias de seguridad automatizadas para garantizar la continuidad del negocio."
+        description: "Sistema de copias de seguridad automatizadas para garantizar la continuidad."
       }
     ]
   },
@@ -150,10 +150,10 @@ const services = [
 ];
 
 export default function Services() {
-  const [flippedCardIndex, setFlippedCardIndex] = useState<number | null>(null);
+  const [flippedCard, setFlippedCard] = useState<number | null>(null);
 
   const handleFlip = (index: number) => {
-    setFlippedCardIndex(flippedCardIndex === index ? null : index);
+    setFlippedCard(flippedCard === index ? null : index);
   };
 
   return (
@@ -169,12 +169,12 @@ export default function Services() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <ServiceFlipCard
+            <ServiceCard
               key={index}
               {...service}
-              isFlipped={flippedCardIndex === index}
+              isFlipped={flippedCard === index}
               onFlip={() => handleFlip(index)}
             />
           ))}

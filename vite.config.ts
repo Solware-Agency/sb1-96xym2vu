@@ -6,10 +6,13 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
-  base: '/', // Aseguramos que la base path esté correctamente configurada
+  base: '/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: true,
+  },
+  css: {
+    postcss: './postcss.config.js',
   },
 });

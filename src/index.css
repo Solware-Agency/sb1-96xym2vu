@@ -3,21 +3,6 @@
 @tailwind utilities;
 
 @layer utilities {
-  /* Card hover effects */
-  .card-hover {
-    @apply transition-all duration-300 ease-out;
-    transform: translateY(0);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .card-hover:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  }
-
-  /* 3D Flip Card utilities */
   .perspective-1000 {
     perspective: 1000px;
   }
@@ -38,129 +23,46 @@
     transition-duration: 600ms;
   }
 
-  @media (max-width: 640px) {
-    .card-hover:hover {
-      transform: translateY(-2px);
-    }
-  }
-
-  /* Icon animations */
-  .icon-hover {
-    @apply transition-all duration-300 ease-out;
-  }
-  
-  .group:hover .icon-hover {
-    transform: rotate(360deg);
-  }
-
-  @media (max-width: 640px) {
-    .group:hover .icon-hover {
-      transform: rotate(180deg);
-    }
-  }
-
-  /* Title hover effect */
-  .title-hover {
-    @apply transition-colors duration-300;
-  }
-
-  .group:hover .title-hover {
-    @apply text-blue-600;
-  }
-
-  /* Entry animations */
-  .fade-in-up {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  }
-
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Hero animations */
-  .animate-fade-in {
-    animation: fadeIn 1s ease-out forwards;
-  }
-
-  .animate-fade-in-delay {
-    animation: fadeIn 1s ease-out 0.3s forwards;
-    opacity: 0;
-  }
-
-  .animate-fade-in-delay-2 {
-    animation: fadeIn 1s ease-out 0.6s forwards;
-    opacity: 0;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  /* Grid background */
-  .bg-grid-white {
-    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-                      linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-  }
-
-  /* Staggered animation delays */
-  .stagger-1 { animation-delay: 0.1s; }
-  .stagger-2 { animation-delay: 0.2s; }
-  .stagger-3 { animation-delay: 0.3s; }
-  .stagger-4 { animation-delay: 0.4s; }
-  .stagger-5 { animation-delay: 0.5s; }
-  .stagger-6 { animation-delay: 0.6s; }
-
-  /* Button animations */
-  .btn-hover {
-    @apply transition-all duration-300 ease-out;
-  }
-
-  .btn-hover:hover {
-    transform: translateX(4px);
-  }
-
-  @media (max-width: 640px) {
-    .btn-hover:hover {
-      transform: translateX(2px);
-    }
-  }
-
-  /* Card gradient backgrounds */
-  .card-gradient {
-    background: linear-gradient(
-      135deg,
-      theme('colors.white') 0%,
-      theme('colors.blue.50') 100%
+  /* Carousel utilities */
+  .carousel-gradient-mask {
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      black 20%,
+      black 80%,
+      transparent 100%
     );
   }
 
-  /* Click feedback animation */
-  .click-feedback {
-    @apply transition-transform duration-100 ease-in-out active:scale-95;
+  .carousel-slide-active {
+    opacity: 1;
+    transform: scale(1);
   }
 
-  @media (max-width: 640px) {
-    .click-feedback {
-      @apply active:scale-98;
-    }
+  .carousel-slide-inactive {
+    opacity: 0.7;
+    transform: scale(0.9);
   }
 
-  /* Accessibility focus styles */
-  .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+  /* Line clamp utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Touch handling */
+  .touch-pan-y {
+    touch-action: pan-y pinch-zoom;
+  }
+
+  /* Existing utilities... */
 }
