@@ -1,17 +1,11 @@
 import React, { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
 import { 
-  MapPin, 
   Mail, 
   Phone, 
   Clock, 
   Send, 
-  Linkedin, 
-  Twitter, 
-  Instagram,
   ChevronDown,
-  Building2,
-  Globe,
   MessageCircle
 } from 'lucide-react';
 
@@ -58,7 +52,7 @@ const faqs = [
 ];
 
 const Contact: React.FC = () => {
-  const form = useRef<HTMLFormElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -86,10 +80,32 @@ const Contact: React.FC = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Aquí iría la lógica de envío del formulario
-    console.log('Form submitted:', formData);
+    
+    if (!formRef.current) return;
+
+    try {
+      await emailjs.sendForm(
+        'YOUR_SERVICE_ID',
+        'YOUR_TEMPLATE_ID',
+        formRef.current,
+        'YOUR_PUBLIC_KEY'
+      );
+      alert('Mensaje enviado con éxito!');
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        sector: '',
+        message: '',
+        areas: []
+      });
+    } catch (error) {
+      console.error('Error al enviar el mensaje:', error);
+      alert('Error al enviar el mensaje. Por favor, intente nuevamente.');
+    }
   };
 
   const openWhatsApp = () => {
@@ -113,7 +129,7 @@ const Contact: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div className="bg-white rounded-2xl p-8 shadow-lg fade-in-up stagger-1">
-            <form ref={form} onSubmit={handleSubmit} className="space-y-6">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                   Nombre completo
@@ -256,13 +272,6 @@ const Contact: React.FC = () => {
               
               <div className="space-y-4">
                 <div className="flex items-center">
-                  <MapPin className="h-5 w-5 text-blue-600" />
-                  <span className="ml-3 text-gray-600">
-                    Av. Francisco de Miranda, Caracas 1060, Venezuela
-                  </span>
-                </div>
-                
-                <div className="flex items-center">
                   <Mail className="h-5 w-5 text-blue-600" />
                   <a href="mailto:contacto@solware.com" 
                     className="ml-3 text-gray-600 hover:text-blue-600 transition-colors">
@@ -295,21 +304,6 @@ const Contact: React.FC = () => {
                   Chatear por WhatsApp
                 </button>
               </div>
-
-              <div className="mt-8 pt-8 border-t border-gray-100">
-                <h4 className="font-medium text-gray-900 mb-4">Síguenos en redes</h4>
-                <div className="flex space-x-4">
-                  <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors">
-                    <Linkedin className="h-6 w-6" />
-                  </a>
-                  <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors">
-                    <Twitter className="h-6 w-6" />
-                  </a>
-                  <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors">
-                    <Instagram className="h-6 w-6" />
-                  </a>
-                </div>
-              </div>
             </div>
 
             <div className="bg-white rounded-2xl p-8 shadow-lg fade-in-up stagger-3">
@@ -334,19 +328,6 @@ const Contact: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="mt-12 rounded-2xl overflow-hidden shadow-lg fade-in-up stagger-4">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.0439282485397!2d-66.8563193!3d10.4914582!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8c2a58fa8f7c5f27%3A0x7a46c3834a4bb935!2sAv.%20Francisco%20de%20Miranda%2C%20Caracas%201060%2C%20Miranda!5e0!3m2!1ses!2sve!4v1647289845784!5m2!1ses!2sve"
-            width="100%"
-            height="450"
-            style={{ border: 0 }}
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            title="Ubicación de Solware"
-          ></iframe>
         </div>
       </div>
     </section>

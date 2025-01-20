@@ -3,7 +3,9 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import Services from './components/Services';
 import WorkProcess from './components/WorkProcess';
+import Automation from './components/Automation';
 import Contact from './components/Contact';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -13,8 +15,10 @@ function App() {
         <Hero />
         <Services />
         <WorkProcess />
+        <Automation />
         <Contact />
       </main>
+      <Footer />
     </div>
   );
 }

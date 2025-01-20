@@ -1,8 +1,38 @@
 import React, { useState } from 'react';
 import { Menu, X, Code2 } from 'lucide-react';
+import { useActiveSection } from '../hooks/useActiveSection';
+
+const navItems = [
+  { href: '#inicio', label: 'Inicio' },
+  { href: '#servicios', label: 'Servicios' },
+  { href: '#automatizacion', label: 'Automatización' },
+  { href: '#contacto', label: 'Contacto' }
+];
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const activeSection = useActiveSection();
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const href = e.currentTarget.getAttribute('href');
+    if (!href) return;
+    
+    const targetId = href.replace('#', '');
+    const element = document.getElementById(targetId);
+    if (!element) return;
+    
+    const offset = 80;
+    const elementPosition = element.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth'
+    });
+
+    setIsMenuOpen(false);
+  };
 
   return (
     <header className="fixed w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
@@ -14,11 +44,20 @@ export default function Header() {
           </div>
           
           <nav className="hidden md:flex space-x-8">
-            <a href="#inicio" className="text-gray-700 hover:text-blue-600">Inicio</a>
-            <a href="#servicios" className="text-gray-700 hover:text-blue-600">Servicios</a>
-            <a href="#proyectos" className="text-gray-700 hover:text-blue-600">Proyectos</a>
-            <a href="#blog" className="text-gray-700 hover:text-blue-600">Blog</a>
-            <a href="#contacto" className="text-gray-700 hover:text-blue-600">Contacto</a>
+            {navItems.map(({ href, label }) => (
+              <a
+                key={href}
+                href={href}
+                onClick={handleNavClick}
+                className={`transition-colors duration-200 ${
+                  activeSection === href.replace('#', '')
+                    ? 'text-blue-600 font-medium'
+                    : 'text-gray-700 hover:text-blue-600'
+                }`}
+              >
+                {label}
+              </a>
+            ))}
           </nav>
 
           <button className="hidden md:block bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">
@@ -28,21 +67,30 @@ export default function Header() {
           <button 
             className="md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
           >
-            {isMenuOpen ? <X /> : <Menu />}
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
       {isMenuOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="#inicio" className="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded-md">Inicio</a>
-            <a href="#servicios" className="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded-md">Servicios</a>
-            <a href="#proyectos" className="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded-md">Proyectos</a>
-            <a href="#blog" className="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded-md">Blog</a>
-            <a href="#contacto" className="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded-md">Contacto</a>
+            {navItems.map(({ href, label }) => (
+              <a
+                key={href}
+                href={href}
+                onClick={handleNavClick}
+                className={`block px-3 py-2 rounded-md transition-colors duration-200 ${
+                  activeSection === href.replace('#', '')
+                    ? 'text-blue-600 bg-blue-50 font-medium'
+                    : 'text-gray-700 hover:bg-blue-50'
+                }`}
+              >
+                {label}
+              </a>
+            ))}
           </div>
         </div>
       )}
