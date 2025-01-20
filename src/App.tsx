@@ -5,7 +5,7 @@ import Services from './components/Services';
 import WorkProcess from './components/WorkProcess';
 import Contact from './components/Contact';
 
-const App: React.FC = () => {
+function App() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -17,6 +17,6 @@ const App: React.FC = () => {
       </main>
     </div>
   );
-};
+}
 
 export default App;

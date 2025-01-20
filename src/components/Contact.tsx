@@ -34,6 +34,29 @@ const areasDeInteres = [
   { id: 'consultoria', label: 'Consultoría Digital' }
 ];
 
+const faqs = [
+  {
+    question: "¿Cómo puede Solware ayudar a mi empresa?",
+    answer: "Solware puede ayudar a tu empresa a aumentar la eficiencia operativa, reducir costos, mejorar la experiencia del cliente y facilitar la adopción de nuevas tecnologías para mantenerte competitivo en el mercado."
+  },
+  {
+    question: "¿Qué es la transformación digital?",
+    answer: "La transformación digital es el proceso de integrar tecnologías digitales en todas las áreas de una empresa para mejorar su funcionamiento y ofrecer un mejor valor a los clientes."
+  },
+  {
+    question: "¿Cómo se inicia un proyecto con Solware?",
+    answer: "Iniciamos con un diagnóstico inicial para entender las necesidades de tu empresa, seguido del diseño de soluciones personalizadas y la implementación de las herramientas necesarias."
+  },
+  {
+    question: "¿Ofrecen soporte post-implementación?",
+    answer: "Sí, ofrecemos soporte continuo y seguimiento para garantizar que las soluciones implementadas funcionen correctamente y se ajusten a las necesidades cambiantes de tu negocio."
+  },
+  {
+    question: "¿Puedo contactar a Solware para una consulta gratuita?",
+    answer: "Sí, puedes contactarnos a través de nuestro formulario en la sección de contacto y estaremos encantados de ofrecerte una consulta inicial sin compromiso."
+  }
+];
+
 const Contact: React.FC = () => {
   const form = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState<FormData>({
@@ -295,44 +318,19 @@ const Contact: React.FC = () => {
               </h3>
               
               <div className="space-y-4">
-                <details className="group">
-                  <summary className="flex justify-between items-center cursor-pointer 
-                    text-gray-700 hover:text-blue-600 transition-colors">
-                    <span>¿Cuál es el tiempo de respuesta promedio?</span>
-                    <ChevronDown className="h-5 w-5 transform group-open:rotate-180 
-                      transition-transform" />
-                  </summary>
-                  <p className="mt-2 text-gray-600">
-                    Nos comprometemos a responder todas las consultas en un plazo máximo 
-                    de 24 horas hábiles.
-                  </p>
-                </details>
-
-                <details className="group">
-                  <summary className="flex justify-between items-center cursor-pointer 
-                    text-gray-700 hover:text-blue-600 transition-colors">
-                    <span>¿Ofrecen servicios internacionales?</span>
-                    <ChevronDown className="h-5 w-5 transform group-open:rotate-180 
-                      transition-transform" />
-                  </summary>
-                  <p className="mt-2 text-gray-600">
-                    Sí, trabajamos con clientes en toda Latinoamérica y ofrecemos 
-                    soporte en múltiples zonas horarias.
-                  </p>
-                </details>
-
-                <details className="group">
-                  <summary className="flex justify-between items-center cursor-pointer 
-                    text-gray-700 hover:text-blue-600 transition-colors">
-                    <span>¿Cómo se inicia un proyecto?</span>
-                    <ChevronDown className="h-5 w-5 transform group-open:rotate-180 
-                      transition-transform" />
-                  </summary>
-                  <p className="mt-2 text-gray-600">
-                    Iniciamos con una consulta gratuita para entender tus necesidades y 
-                    objetivos. Luego, desarrollamos una propuesta personalizada.
-                  </p>
-                </details>
+                {faqs.map((faq, index) => (
+                  <details key={index} className="group">
+                    <summary className="flex justify-between items-center cursor-pointer 
+                      text-gray-700 hover:text-blue-600 transition-colors">
+                      <span>{faq.question}</span>
+                      <ChevronDown className="h-5 w-5 transform group-open:rotate-180 
+                        transition-transform" />
+                    </summary>
+                    <p className="mt-2 text-gray-600">
+                      {faq.answer}
+                    </p>
+                  </details>
+                ))}
               </div>
             </div>
           </div>

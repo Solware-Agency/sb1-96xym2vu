@@ -7,14 +7,44 @@
   .card-hover {
     @apply transition-all duration-300 ease-out;
     transform: translateY(0);
-    transition: transform 0.3s ease-in-out,
-                box-shadow 0.3s ease-in-out,
-                background-color 0.3s ease-in-out;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .card-hover:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 640px) {
+    .card-hover:hover {
+      transform: translateY(-2px);
+    }
+  }
+
+  /* Icon animations */
+  .icon-hover {
+    @apply transition-all duration-300 ease-out;
+  }
+  
+  .group:hover .icon-hover {
+    transform: rotate(360deg);
+  }
+
+  @media (max-width: 640px) {
+    .group:hover .icon-hover {
+      transform: rotate(180deg);
+    }
+  }
+
+  /* Title hover effect */
+  .title-hover {
+    @apply transition-colors duration-300;
+  }
+
+  .group:hover .title-hover {
+    @apply text-blue-600;
   }
 
   /* Entry animations */
@@ -73,15 +103,6 @@
   .stagger-5 { animation-delay: 0.5s; }
   .stagger-6 { animation-delay: 0.6s; }
 
-  /* Icon animations */
-  .icon-hover {
-    @apply transition-all duration-300 ease-out;
-  }
-  
-  .group:hover .icon-hover {
-    transform: scale(1.1) rotate(5deg);
-  }
-
   /* Button animations */
   .btn-hover {
     @apply transition-all duration-300 ease-out;
@@ -89,6 +110,12 @@
 
   .btn-hover:hover {
     transform: translateX(4px);
+  }
+
+  @media (max-width: 640px) {
+    .btn-hover:hover {
+      transform: translateX(2px);
+    }
   }
 
   /* Card gradient backgrounds */
@@ -103,6 +130,12 @@
   /* Click feedback animation */
   .click-feedback {
     @apply transition-transform duration-100 ease-in-out active:scale-95;
+  }
+
+  @media (max-width: 640px) {
+    .click-feedback {
+      @apply active:scale-98;
+    }
   }
 
   /* Accessibility focus styles */
