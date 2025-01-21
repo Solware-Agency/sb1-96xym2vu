@@ -5,6 +5,7 @@ import { useActiveSection } from '../hooks/useActiveSection';
 const navItems = [
   { href: '#inicio', label: 'Inicio' },
   { href: '#servicios', label: 'Servicios' },
+  { href: '#proceso', label: 'Workflow' },
   { href: '#automatizacion', label: 'Automatización' },
   { href: '#contacto', label: 'Contacto' }
 ];
@@ -22,7 +23,8 @@ export default function Header() {
     const element = document.getElementById(targetId);
     if (!element) return;
     
-    const offset = 80;
+    // Adjusted offset to account for the reduced banner height
+    const offset = 100;
     const elementPosition = element.getBoundingClientRect().top;
     const offsetPosition = elementPosition + window.pageYOffset - offset;
 

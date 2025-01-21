@@ -166,9 +166,9 @@ const WorkProcess: React.FC = () => {
   };
 
   return (
-    <section className="py-24 bg-gray-50" id="proceso">
-      {/* Video Banner */}
-      <div className="relative w-full h-64 sm:h-96 mb-16 overflow-hidden">
+    <section className="py-16 bg-gray-50" id="proceso">
+      {/* Video Banner - Reduced height by 30% */}
+      <div className="relative w-full h-48 sm:h-64 mb-16 overflow-hidden">
         <video
           className="absolute inset-0 w-full h-full object-cover"
           autoPlay
@@ -186,10 +186,10 @@ const WorkProcess: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-gray-900/50 to-gray-900/80" />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center">
-            <h2 className="text-4xl font-bold text-white mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2 sm:mb-4">
               Nuestro Proceso
             </h2>
-            <p className="text-xl text-white/90 max-w-2xl mx-auto px-4">
+            <p className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto px-4">
               Un enfoque sistemático y eficiente para transformar tu visión en realidad
             </p>
           </div>
