@@ -90,23 +90,29 @@ const Contact: React.FC = () => {
     try {
       const scriptUrl = 'https://script.google.com/macros/s/AKfycbxGL1ELw7YpU-Hps7UaNi4x4GWqBP0JJs9u7rnHQ8IuOJtgAS_6PkheVS5YobJVOW79/exec';
       
-      const formDataToSend = new FormData();
-      formDataToSend.append('nombre', formData.name);
-      formDataToSend.append('correo', formData.email);
-      formDataToSend.append('telefono', formData.phone);
-      formDataToSend.append('empresa', formData.company);
-      formDataToSend.append('sector', formData.sector);
-      formDataToSend.append('areasInteres', formData.areas.map(id => 
+      // Crear un objeto URLSearchParams para enviar los datos como x-www-form-urlencoded
+      const params = new URLSearchParams();
+      params.append('nombre', formData.name);
+      params.append('correo', formData.email);
+      params.append('telefono', formData.phone);
+      params.append('empresa', formData.company);
+      params.append('sector', formData.sector);
+      params.append('areasInteres', formData.areas.map(id => 
         areasDeInteres.find(area => area.id === id)?.label || id
       ).join(', '));
-      formDataToSend.append('mensaje', formData.message);
+      params.append('mensaje', formData.message);
 
-      await fetch(scriptUrl, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: formDataToSend
+      // Construir la URL con los parámetros
+      const urlWithParams = `${scriptUrl}?${params.toString()}`;
+
+      // Realizar la solicitud GET
+      const response = await fetch(urlWithParams, {
+        method: 'GET',
+        mode: 'no-cors'
       });
 
+      // Como estamos usando no-cors, no podemos leer la respuesta
+      // Asumimos que fue exitoso si no hubo error
       alert('¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.');
       
       setFormData({

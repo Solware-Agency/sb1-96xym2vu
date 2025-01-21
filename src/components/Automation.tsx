@@ -68,14 +68,14 @@ const Automation: React.FC = () => {
   }, []);
 
   return (
-    <section className="py-24 bg-gray-50" id="automatizacion">
+    <section className="py-12 sm:py-24 bg-gray-50" id="automatizacion">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4 relative">
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-16">
+          <h2 className="text-2xl sm:text-4xl font-bold text-gray-900 mb-4 relative">
             Automatización Empresarial
             <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-blue-600 rounded-full"></span>
           </h2>
-          <p className="text-xl text-gray-600">
+          <p className="text-base sm:text-xl text-gray-600">
             Transformamos procesos manuales en flujos de trabajo eficientes y automatizados
           </p>
         </div>
@@ -86,10 +86,10 @@ const Automation: React.FC = () => {
               {getVisibleCards().map((card, index) => (
                 <div
                   key={card.id}
-                  className={`transition-all duration-300 ease-out px-4 ${
+                  className={`transition-all duration-300 ease-out px-2 sm:px-4 ${
                     index === 1
-                      ? 'w-full max-w-3xl z-20 opacity-100 scale-100'
-                      : 'w-full max-w-2xl z-10 opacity-40 scale-90 blur-sm'
+                      ? 'w-full max-w-[280px] sm:max-w-3xl z-20 opacity-100 scale-100'
+                      : 'w-full max-w-[240px] sm:max-w-2xl z-10 opacity-40 scale-90 blur-sm'
                   } ${
                     index === 0
                       ? '-translate-x-1/4'
@@ -98,8 +98,8 @@ const Automation: React.FC = () => {
                       : ''
                   }`}
                 >
-                  <div className="bg-white rounded-2xl overflow-hidden shadow-lg">
-                    <div className="relative h-64">
+                  <div className="bg-white rounded-2xl overflow-hidden shadow-lg h-[480px] sm:h-auto">
+                    <div className="relative h-36 sm:h-64">
                       <img
                         src={card.image}
                         alt={card.title}
@@ -114,9 +114,13 @@ const Automation: React.FC = () => {
                       </div>
                     </div>
                     
-                    <div className="p-8">
-                      <h3 className="text-2xl font-bold text-gray-900 mb-4">{card.title}</h3>
-                      <p className="text-gray-600 text-lg">{card.description}</p>
+                    <div className="p-4 sm:p-8 flex flex-col h-[calc(480px-144px)] sm:h-auto">
+                      <h3 className="text-base sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4 line-clamp-2">
+                        {card.title}
+                      </h3>
+                      <p className="text-sm sm:text-lg text-gray-600 line-clamp-6 sm:line-clamp-none leading-relaxed">
+                        {card.description}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -126,28 +130,28 @@ const Automation: React.FC = () => {
 
           <button
             onClick={handlePrevious}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-3 rounded-full 
-              shadow-lg hover:bg-white transition-colors z-30"
+            className="absolute left-0 sm:left-4 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-2 sm:p-3 
+              rounded-full shadow-lg hover:bg-white transition-colors z-30 transform -translate-x-1/2 sm:translate-x-0"
             aria-label="Anterior"
           >
-            <ArrowLeft className="h-6 w-6 text-gray-600" />
+            <ArrowLeft className="h-4 w-4 sm:h-6 sm:w-6 text-gray-600" />
           </button>
 
           <button
             onClick={handleNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-3 rounded-full 
-              shadow-lg hover:bg-white transition-colors z-30"
+            className="absolute right-0 sm:right-4 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-2 sm:p-3 
+              rounded-full shadow-lg hover:bg-white transition-colors z-30 transform translate-x-1/2 sm:translate-x-0"
             aria-label="Siguiente"
           >
-            <ArrowRight className="h-6 w-6 text-gray-600" />
+            <ArrowRight className="h-4 w-4 sm:h-6 sm:w-6 text-gray-600" />
           </button>
 
-          <div className="flex justify-center mt-8 space-x-2">
+          <div className="flex justify-center mt-4 sm:mt-8 space-x-2">
             {automations.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setCurrentIndex(i)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
                   currentIndex === i 
                     ? 'bg-blue-600 scale-125' 
                     : 'bg-blue-200 hover:bg-blue-300'
