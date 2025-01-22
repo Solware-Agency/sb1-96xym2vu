@@ -1,310 +1,140 @@
-import React, { useState } from 'react';
-import { 
-  Lightbulb, 
-  ClipboardList, 
-  Code2, 
-  TestTube2,
-  LineChart,
-  Headphones,
-  ChevronRight,
-  X
-} from 'lucide-react';
+import React from 'react';
+import { Target, Route, Lightbulb, Cog, ClipboardList } from 'lucide-react';
 
-interface ProcessStep {
-  id: number;
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  color: string;
-  details: {
-    title: string;
-    description: string;
-  }[];
-}
-
-const processSteps: ProcessStep[] = [
+const steps = [
   {
-    id: 1,
-    icon: <Lightbulb className="h-8 w-8" />,
-    title: "Descubrimiento",
-    description: "Analizamos tus necesidades y objetivos para crear una estrategia personalizada",
-    color: "from-blue-500 to-blue-600",
-    details: [
-      {
-        title: "Reunión Inicial",
-        description: "Sesión detallada para entender tus metas y desafíos específicos."
-      },
-      {
-        title: "Análisis de Requisitos",
-        description: "Evaluación profunda de necesidades técnicas y operativas."
-      },
-      {
-        title: "Investigación de Mercado",
-        description: "Estudio del sector y competencia para identificar oportunidades."
-      }
-    ]
+    number: "1",
+    title: "Establecer metas claras",
+    icon: <Target className="h-6 w-6" />,
+    bgColor: "bg-blue-100",
+    iconColor: "text-blue-600"
   },
   {
-    id: 2,
-    icon: <ClipboardList className="h-8 w-8" />,
-    title: "Planificación",
-    description: "Desarrollamos un plan estratégico detallado con objetivos claros",
-    color: "from-purple-500 to-purple-600",
-    details: [
-      {
-        title: "Definición de Alcance",
-        description: "Establecimiento claro de objetivos y entregables del proyecto."
-      },
-      {
-        title: "Cronograma",
-        description: "Planificación detallada de tiempos y recursos necesarios."
-      },
-      {
-        title: "Metodología",
-        description: "Selección del enfoque más adecuado para tu proyecto."
-      }
-    ]
+    number: "2",
+    title: "Crear plan de acción",
+    icon: <Route className="h-6 w-6" />,
+    bgColor: "bg-green-100",
+    iconColor: "text-green-600"
   },
   {
-    id: 3,
-    icon: <Code2 className="h-8 w-8" />,
-    title: "Desarrollo",
-    description: "Implementamos soluciones tecnológicas de última generación",
-    color: "from-indigo-500 to-indigo-600",
-    details: [
-      {
-        title: "Desarrollo Ágil",
-        description: "Implementación iterativa con feedback continuo."
-      },
-      {
-        title: "Control de Calidad",
-        description: "Testing riguroso en cada fase del desarrollo."
-      },
-      {
-        title: "Optimización",
-        description: "Mejora continua del rendimiento y la experiencia."
-      }
-    ]
+    number: "3",
+    title: "Desarrollar habilidades",
+    icon: <Lightbulb className="h-6 w-6" />,
+    bgColor: "bg-yellow-100",
+    iconColor: "text-yellow-600"
   },
   {
-    id: 4,
-    icon: <TestTube2 className="h-8 w-8" />,
-    title: "Testing",
-    description: "Realizamos pruebas exhaustivas para asegurar la máxima calidad",
-    color: "from-amber-500 to-amber-600",
-    details: [
-      {
-        title: "Pruebas Unitarias",
-        description: "Verificación detallada de cada componente individual."
-      },
-      {
-        title: "Testing de Integración",
-        description: "Validación de la interacción entre diferentes módulos."
-      },
-      {
-        title: "Pruebas de Usuario",
-        description: "Evaluación de la experiencia del usuario final."
-      }
-    ]
+    number: "4",
+    title: "Implementar soluciones",
+    icon: <Cog className="h-6 w-6" />,
+    bgColor: "bg-pink-100",
+    iconColor: "text-pink-600"
   },
   {
-    id: 5,
-    icon: <LineChart className="h-8 w-8" />,
-    title: "Estadísticas",
-    description: "Organizamos y analizamos datos para optimizar tu negocio",
-    color: "from-green-500 to-green-600",
-    details: [
-      {
-        title: "Análisis de Datos",
-        description: "Procesamiento y visualización de métricas clave."
-      },
-      {
-        title: "Reportes Personalizados",
-        description: "Informes detallados adaptados a tus necesidades."
-      },
-      {
-        title: "Optimización Continua",
-        description: "Mejora constante basada en datos reales."
-      }
-    ]
-  },
-  {
-    id: 6,
-    icon: <Headphones className="h-8 w-8" />,
-    title: "Soporte",
-    description: "Te brindamos acceso y acompañamiento continuo",
-    color: "from-rose-500 to-rose-600",
-    details: [
-      {
-        title: "Soporte Técnico 24/7",
-        description: "Asistencia permanente para resolver cualquier incidencia."
-      },
-      {
-        title: "Capacitación",
-        description: "Entrenamiento completo para tu equipo."
-      },
-      {
-        title: "Mantenimiento",
-        description: "Actualizaciones y mejoras continuas del sistema."
-      }
-    ]
+    number: "5",
+    title: "Evaluar el progreso",
+    icon: <ClipboardList className="h-6 w-6" />,
+    bgColor: "bg-purple-100",
+    iconColor: "text-purple-600"
   }
 ];
 
+// El resto del componente permanece igual
 const WorkProcess: React.FC = () => {
-  const [selectedStep, setSelectedStep] = useState<ProcessStep | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = (step: ProcessStep) => {
-    setSelectedStep(step);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setTimeout(() => setSelectedStep(null), 300);
-  };
-
   return (
-    <section className="py-16 bg-gray-50" id="proceso">
-      {/* Video Banner - Reduced height by 30% */}
-      <div className="relative w-full h-48 sm:h-64 mb-16 overflow-hidden">
-        <video
-          className="absolute inset-0 w-full h-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1920"
-          loading="lazy"
-        >
-          <source 
-            src="https://player.vimeo.com/external/492714335.sd.mp4?s=7f9ee1f8ec1e5376027e4a6d455d5576d838e837&profile_id=165&oauth2_token_id=57447761" 
-            type="video/mp4" 
-          />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-900/50 to-gray-900/80" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2 sm:mb-4">
-              Nuestro Proceso
-            </h2>
-            <p className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto px-4">
-              Un enfoque sistemático y eficiente para transformar tu visión en realidad
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Process Steps */}
+    <section className="py-24 bg-gray-50" id="proceso">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {processSteps.map((step, index) => (
-            <div
-              key={step.id}
-              className="group relative"
-              style={{
-                opacity: 0,
-                animation: `fadeInUp 0.6s ease-out ${index * 0.2}s forwards`
-              }}
-            >
-              <div 
-                className={`h-full bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl 
-                  transform hover:scale-105 transition-all duration-300 cursor-pointer
-                  border-2 border-transparent hover:border-blue-500`}
-                onClick={() => openModal(step)}
-              >
-                <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${step.color} 
-                  flex items-center justify-center mb-6 transform group-hover:rotate-6 
-                  transition-transform duration-300`}>
-                  <div className="text-white">
-                    {step.icon}
-                  </div>
-                </div>
-
-                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 
-                  transition-colors duration-300">
-                  {step.title}
-                </h3>
-
-                <p className="text-gray-600 mb-6">
-                  {step.description}
-                </p>
-
-                <button 
-                  className="inline-flex items-center text-blue-600 font-medium 
-                    group-hover:text-blue-700 transition-colors duration-300"
-                >
-                  Ver más
-                  <ChevronRight className="ml-2 h-4 w-4 transform group-hover:translate-x-1 
-                    transition-transform duration-300" />
-                </button>
-              </div>
-            </div>
-          ))}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            El camino para alcanzar tus metas profesionales
+          </h2>
         </div>
-      </div>
 
-      {/* Modal */}
-      {isModalOpen && selectedStep && (
-        <div className="fixed inset-0 z-50 overflow-y-auto">
-          <div className="min-h-screen px-4 flex items-center justify-center">
-            <div 
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
-              onClick={closeModal}
-            />
-
-            <div 
-              className={`relative bg-white rounded-2xl max-w-2xl w-full p-8 shadow-2xl 
-                transform transition-all duration-300 ${
-                isModalOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
+        <div className="relative pt-32 pb-40">
+          {/* Líneas conectoras (solo visibles en desktop) */}
+          <div className="hidden lg:block absolute inset-0 pointer-events-none">
+            <svg 
+              className="w-full h-full" 
+              viewBox="0 0 1200 300"
+              preserveAspectRatio="xMidYMid meet"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <button
-                onClick={closeModal}
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 
-                  transition-colors duration-300"
-              >
-                <X className="h-6 w-6" />
-              </button>
+              {/* Línea de fondo para efecto de trazo */}
+              <path
+                d="M100,150 C250,150 300,50 450,50 S600,250 750,250 S900,50 1100,50"
+                stroke="#E5E7EB"
+                strokeWidth="4"
+                fill="none"
+                className="path-background"
+              />
+              {/* Línea animada */}
+              <path
+                d="M100,150 C250,150 300,50 450,50 S600,250 750,250 S900,50 1100,50"
+                stroke="url(#gradientLine)"
+                strokeWidth="4"
+                fill="none"
+                strokeLinecap="round"
+                className="path-animation"
+              />
+              {/* Definición del gradiente */}
+              <defs>
+                <linearGradient id="gradientLine" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#3B82F6" />
+                  <stop offset="100%" stopColor="#8B5CF6" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
 
-              <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${selectedStep.color} 
-                flex items-center justify-center mb-6`}>
-                <div className="text-white">
-                  {selectedStep.icon}
+          {/* Pasos del proceso */}
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 relative z-10">
+            {steps.map((step, index) => (
+              <div
+                key={index}
+                className={`relative flex flex-col items-center ${
+                  index % 2 === 0 ? 'lg:mt-0' : 'lg:mt-64'
+                }`}
+                style={{
+                  opacity: 0,
+                  animation: `fadeIn 0.6s ease-out ${index * 0.2}s forwards`
+                }}
+              >
+                {/* Número y círculo */}
+                <div className={`relative w-16 h-16 rounded-full ${step.bgColor} flex items-center justify-center mb-8 
+                  transform transition-all duration-300 hover:scale-110
+                  border-2 border-white shadow-md group z-20`}>
+                  <span className="text-2xl font-bold text-gray-800 group-hover:scale-110 transition-transform">
+                    {step.number}
+                  </span>
+                  {/* Círculo de fondo para el efecto de brillo */}
+                  <div className="absolute inset-0 rounded-full bg-white/50 blur-md -z-10 opacity-0 
+                    group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+
+                {/* Icono */}
+                <div className={`w-12 h-12 rounded-full ${step.bgColor} flex items-center justify-center mb-6 
+                  transform transition-all duration-300 hover:rotate-12 hover:scale-110 hover:shadow-md
+                  border border-white/50`}>
+                  {React.cloneElement(step.icon, {
+                    className: `h-6 w-6 ${step.iconColor}`
+                  })}
+                </div>
+
+                {/* Título */}
+                <div className="bg-white rounded-xl p-3 shadow-lg transform hover:scale-105 
+                  transition-all duration-300 hover:shadow-xl max-w-[200px]">
+                  <h3 className="text-center text-lg font-semibold text-gray-800 whitespace-normal">
+                    {step.title}
+                  </h3>
                 </div>
               </div>
-
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                {selectedStep.title}
-              </h3>
-
-              <div className="space-y-6">
-                {selectedStep.details.map((detail, index) => (
-                  <div 
-                    key={index}
-                    className="p-4 bg-gray-50 rounded-xl"
-                    style={{
-                      opacity: 0,
-                      animation: `fadeInUp 0.4s ease-out ${index * 0.1}s forwards`
-                    }}
-                  >
-                    <h4 className="text-lg font-semibold text-gray-900 mb-2">
-                      {detail.title}
-                    </h4>
-                    <p className="text-gray-600">
-                      {detail.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
+            ))}
           </div>
         </div>
-      )}
+      </div>
 
       <style>{`
-        @keyframes fadeInUp {
+        @keyframes fadeIn {
           from {
             opacity: 0;
             transform: translateY(20px);
@@ -312,6 +142,22 @@ const WorkProcess: React.FC = () => {
           to {
             opacity: 1;
             transform: translateY(0);
+          }
+        }
+
+        .path-background {
+          opacity: 0.3;
+        }
+
+        .path-animation {
+          stroke-dasharray: 2000;
+          stroke-dashoffset: 2000;
+          animation: drawPath 3s ease-out forwards;
+        }
+
+        @keyframes drawPath {
+          to {
+            stroke-dashoffset: 0;
           }
         }
       `}</style>
