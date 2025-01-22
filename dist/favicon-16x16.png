@@ -1,1 +1,7 @@
-data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA5ElEQVQ4jZ2TMQrCQBBF3052N5vNJmIhFoKFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWIiIiIiIhYiGBEkuzOWGST3SQbwQ8MA8P/N++fGYAxhiRJMMYgpUQIgRACKSVSSowxGGMwxmCMwRiD1hqtNVprtNZorVFKoZRCKYVSCqUUWmu01mitMcZgjCFJErTWKKVQSiGlREqJEAIhBFJKjDEkSYIxZgJsyxwPh/3pdN4VRUGe5+R5TlEUFEVBURTkeU6e5+R5TlEUFEVBURQURUGe5+R5TlEUz+12dzqdD4Bv7+0Hok9hj4oAAAAASUVORK5CYII=
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M18 16.126V19a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3.874"></path>
+  <path d="M18 16.126h-2.874a2 2 0 0 1-2-2V11.25"></path>
+  <path d="M15.126 11.252V8.374a2 2 0 0 1 2-2H20"></path>
+  <path d="M15.126 11.252H18"></path>
+  <path d="M20 8.374v2.878"></path>
+</svg>
