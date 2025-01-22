@@ -14,19 +14,18 @@ export default {
         '98': '.98',
       },
       colors: {
-        brand: {
-          DEFAULT: '#1d4ed8', // Azul principal
-          secondary: '#1e40af',
-          light: '#3b82f6',
-          lighter: '#60a5fa',
-          gray: '#94a3b8',
-        },
         dark: {
-          DEFAULT: '#0f172a', // Fondo oscuro principal
-          secondary: '#1e293b',
-          light: '#334155',
-          lighter: '#475569',
-          gray: '#94a3b8',
+          DEFAULT: '#1A2D42',
+          50: '#1f3754',
+          100: '#243f61',
+          200: '#2a476e',
+          300: '#2f4f7b',
+          400: '#355788',
+          500: '#3a5f95',
+          600: '#4067a2',
+          700: '#456faf',
+          800: '#4b77bc',
+          900: '#507fc9',
         },
       },
     },

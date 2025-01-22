@@ -149,7 +149,7 @@ const services = [
   }
 ];
 
-export default function Services() {
+const Services: React.FC = () => {
   const [flippedCard, setFlippedCard] = useState<number | null>(null);
 
   const handleFlip = (index: number) => {
@@ -157,15 +157,15 @@ export default function Services() {
   };
 
   return (
-    <section className="py-24 bg-gray-50 dark:bg-gray-900 transition-colors duration-300" id="servicios">
+    <section className="py-24 bg-white dark:bg-gray-900 transition-colors duration-300" id="servicios">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 relative transition-colors duration-300">
-            Nuestros Servicios
+            Soluciones Digitales Integrales
             <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-blue-600 dark:bg-blue-500 rounded-full"></span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 transition-colors duration-300">
-            Soluciones tecnológicas adaptadas a tus necesidades empresariales
+            Transformamos tu negocio con tecnología de vanguardia y soluciones personalizadas
           </p>
         </div>
 
@@ -182,4 +182,6 @@ export default function Services() {
       </div>
     </section>
   );
-}
+};
+
+export default Services;

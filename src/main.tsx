@@ -1,8 +1,9 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { 
-  createBrowserRouter,
-  RouterProvider
+  BrowserRouter, 
+  Routes, 
+  Route 
 } from 'react-router-dom';
 import App from './App';
 import NotFound from './components/NotFound';
@@ -17,17 +18,6 @@ if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
   document.documentElement.classList.remove('dark');
 }
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-  },
-  {
-    path: "*",
-    element: <NotFound />,
-  },
-]);
-
 const rootElement = document.getElementById('root');
 if (!rootElement) throw new Error('Failed to find the root element');
 
@@ -35,6 +25,11 @@ const root = createRoot(rootElement);
 
 root.render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   </StrictMode>
 );
