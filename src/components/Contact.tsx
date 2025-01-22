@@ -30,7 +30,6 @@ const areasDeInteres = [
 const Contact: React.FC = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -109,10 +108,6 @@ const Contact: React.FC = () => {
   const openWhatsApp = () => {
     const message = encodeURIComponent('Hola, me gustaría obtener más información sobre sus servicios.');
     window.open(`https://wa.me/584126652245?text=${message}`, '_blank');
-  };
-
-  const handleFaqClick = (index: number) => {
-    setOpenFaq(openFaq === index ? null : index);
   };
 
   return (
@@ -345,31 +340,18 @@ const Contact: React.FC = () => {
               
               <div className="space-y-4">
                 {faqs.map((faq, index) => (
-                  <div key={index} className="border-b border-gray-200 dark:border-gray-700 last:border-0">
-                    <button
-                      className="w-full py-4 flex justify-between items-center text-left focus:outline-none"
-                      onClick={() => handleFaqClick(index)}
-                      aria-expanded={openFaq === index}
-                    >
-                      <span className="text-gray-700 dark:text-gray-300 hover:text-blue-600 
-                        dark:hover:text-blue-400 transition-colors font-medium">
-                        {faq.question}
-                      </span>
-                      <ChevronDown
-                        className={`h-5 w-5 text-gray-500 transition-transform duration-300 
-                          ${openFaq === index ? 'transform rotate-180' : ''}`}
-                      />
-                    </button>
-                    <div
-                      className={`overflow-hidden transition-all duration-300 ${
-                        openFaq === index ? 'max-h-48' : 'max-h-0'
-                      }`}
-                    >
-                      <p className="pb-4 text-gray-600 dark:text-gray-400">
-                        {faq.answer}
-                      </p>
-                    </div>
-                  </div>
+                  <details key={index} className="group">
+                    <summary className="flex justify-between items-center cursor-pointer 
+                      text-gray-700 dark:text-gray-300 hover:text-blue-600 
+                      dark:hover:text-blue-400 transition-colors">
+                      <span>{faq.question}</span>
+                      <ChevronDown className="h-5 w-5 transform group-open:rotate-180 
+                        transition-transform" />
+                    </summary>
+                    <p className="mt-2 text-gray-600 dark:text-gray-400 transition-colors duration-300">
+                      {faq.answer}
+                    </p>
+                  </details>
                 ))}
               </div>
             </div>
@@ -382,20 +364,20 @@ const Contact: React.FC = () => {
 
 const faqs = [
   {
-    question: "¿Cuánto tiempo puede ahorrar mi empresa al trabajar con Solware?",
-    answer: "El tiempo que puede ahorrar depende de los procesos que automatices y optimices con nuestras soluciones. Por ejemplo, tareas repetitivas como la gestión de inventarios, el seguimiento de clientes o la generación de reportes pueden reducirse hasta en un 70%."
-  },
-  {
     question: "¿Cómo puede Solware ayudar a mi empresa?",
     answer: "Solware puede ayudar a tu empresa a aumentar la eficiencia operativa, reducir costos, mejorar la experiencia del cliente y facilitar la adopción de nuevas tecnologías para mantenerte competitivo en el mercado."
+  },
+  {
+    question: "¿Qué es la transformación digital?",
+    answer: "La transformación digital es el proceso de integrar tecnologías digitales en todas las áreas de una empresa para mejorar su funcionamiento y ofrecer un mejor valor a los clientes."
   },
   {
     question: "¿Cómo se inicia un proyecto con Solware?",
     answer: "Iniciamos con un diagnóstico inicial para entender las necesidades de tu empresa, seguido del diseño de soluciones personalizadas y la implementación de las herramientas necesarias."
   },
   {
-    question: "¿Qué tipo de mantenimiento ofrecen para las soluciones digitales?",
-    answer: "Proporcionamos un servicio integral de mantenimiento que incluye monitoreo continuo, actualizaciones periódicas, soporte técnico 24/7, respaldos automáticos y optimizaciones constantes para garantizar que tus soluciones digitales funcionen de manera óptima y evolucionen con las necesidades de tu negocio."
+    question: "¿Ofrecen soporte post-implementación?",
+    answer: "Sí, ofrecemos soporte continuo y seguimiento para garantizar que las soluciones implementadas funcionen correctamente y se ajusten a las necesidades cambiantes de tu negocio."
   },
   {
     question: "¿Puedo contactar a Solware para una consulta gratuita?",
